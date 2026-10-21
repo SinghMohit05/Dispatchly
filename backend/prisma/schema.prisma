@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/db/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── User ────────────────────────────────────────────────────
+// Authenticated via Google OAuth. One user per Google account.
+model User {
+  id        String   @id @default(cuid())
+  googleId  String   @unique
+  name      String
+  email     String   @unique
+  avatarUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// ── Sender ──────────────────────────────────────────────────
+// An Ethereal SMTP sender identity. Each belongs to a tenant
+// (tenantId is a simple string scope — not a full multi-tenant
+// model, just enough to enforce per-sender rate limits and
+// associate Slack connections).
+model Sender {
+  id                  String   @id @default(cuid())
+  tenantId            String
+  fromAddress         String
+  // Stored as JSON: { user, pass } for Ethereal
+  etherealCredentials String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  emailJobs EmailJob[]
+
+  @@index([tenantId])
+  @@map("senders")
+}
+
+// ── EmailJob ────────────────────────────────────────────────
+// One row per scheduled email. Status is the source of truth
+// for idempotency: the worker re-checks this before sending.
+model EmailJob {
+  id           String         @id @default(cuid())
+  senderId     String
+  recipient    String
+  subject      String
+  body         String
+  scheduledFor DateTime
+  status       EmailJobStatus @default(SCHEDULED)
+  sentAt       DateTime?
+  error        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sender Sender @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  // Worker queries: "give me scheduled jobs for this sender, ordered by scheduledFor"
+  @@index([status])
+  @@index([scheduledFor])
+  @@index([senderId])
+  @@index([senderId, status])
+  @@map("email_jobs")
+}
+
+enum EmailJobStatus {
+  SCHEDULED
+  SENT
+  FAILED
+}
+

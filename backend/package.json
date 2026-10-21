@@ -1,0 +1,68 @@
+{
+  "name": "dispatchly-backend",
+  "version": "1.0.0",
+  "description": "Dispatchly — email job scheduler backend",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "dev:worker": "tsx watch src/workers/emailWorker.ts",
+    "verify:phase4": "tsx scripts/verify-phase4.ts",
+    "verify:phase5": "tsx scripts/verify-phase5.ts",
+    "verify:phase8": "tsx scripts/verify-phase8.ts",
+    "verify:phase9": "tsx scripts/verify-phase9.ts",
+    "verify:phase10": "tsx scripts/verify-phase10.ts",
+    "verify:phase11": "tsx scripts/verify-phase11.ts",
+    "stress:1000": "tsx scripts/simulate-1000-jobs.ts",
+    "check:google-auth": "tsx scripts/check-google-auth.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint src/ --ext .ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@bull-board/api": "^5.21.0",
+    "@bull-board/express": "^5.21.0",
+    "@prisma/client": "^5.18.0",
+    "bullmq": "^5.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.4.1",
+    "nodemailer": "^6.9.14",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "resend": "^6.34.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/node": "^22.5.0",
+    "@types/nodemailer": "^6.4.15",
+    "@types/passport": "^1.0.16",
+    "@types/passport-google-oauth20": "^2.0.16",
+    "eslint": "^9.9.0",
+    "prisma": "^5.18.0",
+    "tsx": "^4.18.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.3.0"
+  },
+  "allowScripts": {
+    "@prisma/client@5.22.0": true,
+    "prisma@5.22.0": true,
+    "@prisma/engines@5.22.0": true,
+    "esbuild@0.28.2": true,
+    "msgpackr-extract@3.0.4": true
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Exact Near-Black Reference Theme Foundation */
+  --background: #090A0C;
+  --sidebar: #0D0F12;
+  --header: #0C0E11;
+  --card: #111418;
+  --card-hover: #15191E;
+  --border: #22272E;
+  --border-subtle: #1A1F25;
+
+  --foreground: #F2F3F5;
+  --text-primary: #F2F3F5;
+  --text-secondary: #A1A7B0;
+  --text-muted: #6F7782;
+
+  --primary-accent: #8B5CF6;
+  --primary-hover: #7C3AED;
+
+  --success: #35C98A;
+  --warning: #E8B44C;
+  --error: #EF5B68;
+  --info: #5D9CFF;
+
+  /* Standard Controlled Border Radii per Specs */
+  --radius-card: 10px;
+  --radius-button: 8px;
+  --radius-input: 8px;
+  --radius-main: 10px;
+}
+
+html.light,
+[data-theme="light"] {
+  /* Intentional Light Mode Equivalent */
+  --background: #F4F6F8;
+  --sidebar: #E9ECF0;
+  --header: #FFFFFF;
+  --card: #FFFFFF;
+  --card-hover: #F8F9FB;
+  --border: #D8DEE6;
+  --border-subtle: #E6EAF0;
+
+  --foreground: #111418;
+  --text-primary: #111418;
+  --text-secondary: #4E5764;
+  --text-muted: #7A8594;
+
+  --primary-accent: #7C3AED;
+  --primary-hover: #6D28D9;
+
+  --success: #1BA868;
+  --warning: #C9881A;
+  --error: #D93848;
+  --info: #2B75E5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overscroll-behavior: none;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22272E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #343C46;
+}
+
+html.light ::-webkit-scrollbar-track,
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #F4F6F8;
+}
+
+html.light ::-webkit-scrollbar-thumb,
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #CCD3DE;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #B2BCCB;
+}
+
+::selection {
+  background-color: #8B5CF6;
+  color: #FFFFFF;
+}
